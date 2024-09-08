@@ -2,6 +2,10 @@
 
 Este es el repositorio del proyecto para crear un Invernadero inteligente.
 
+## DHT22 sensor de humedad y temperatura ambiental
+
+Ya se realizaron las pruebas con el microcontrolador para este sensor y se agregaron métodos para manejar los valores obtenidos. El plan que se seguirá es implementar las máquinas de estado mostradas en el diagrama adjunto (carpeta `diagrams`). En la carpeta `src` se puede ver el código que tenemos hasta el momento. 
+
 ## Propuesta: Manejo de Agua
 
 El diseño se vería mejor y más completo si tuviera un sistema de riego automático agregando un sistema de reciclaje de agua. Grandes cantidades de agua se desperdician a la hora de realizar el riego convencional, por lo que un riego por goteo sería nuestra mejor opción.
