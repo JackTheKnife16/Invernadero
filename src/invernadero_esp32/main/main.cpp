@@ -22,10 +22,16 @@ extern "C" void app_main(void)
     //SensorInterfaz* dht = new SensorDHT22(GPIO_NUM_22);
     //Coordinador* coordinador_dht = new Coordinador(dht, NULL, NULL);
     
-    SensorInterfaz* soil_1 = new SensorCapacitiveSoil(GPIO_NUM_36, 1400, 3200);
+    // declarar un vector de Sensores
+    std::vector<SensorInterfaz*> soil_derecha;
+    // meter un sensor en el vector de sensores
+    soil_derecha.push_back(new SensorCapacitiveSoil(GPIO_NUM_36, 1400, 3200));
+    // instanciar una maquina de estados
     FSM* fsm_sustrato = new FSMSustrato(OFF);
-    ActuadorInterfaz* electro_valvula = new ActuadorInterfaz(GPIO_NUM_23);
-    Coordinador* coordinador_sustrato = new Coordinador(soil_1, fsm_sustrato, electro_valvula);
+    // instanciar una interfaz de actuador
+    ActuadorInterfaz* bomba_derecha = new ActuadorInterfaz(GPIO_NUM_23);
+    // crear el coordinador del vector de sensores
+    Coordinador* coordinador_sustrato = new Coordinador(soil_derecha, fsm_sustrato, bomba_derecha);
 
     //std::vector<int16_t> vectorcito_humedad_sustrato;
     //std::vector<int16_t> vectorcito_humedad_ambiental;
@@ -38,7 +44,7 @@ extern "C" void app_main(void)
         //std::cout << "luz = " << luz << std::endl;
         coordinador_sustrato->ejecutor();
         //std::cout << "humedad = " << dht->get_humedad_ambiental() << ", temperatura = " << dht->get_temperatura_ambiental() << std::endl;
-        std::cout << "humedad_sustrato = " << soil_1->get_humedad_sustrato() << "%" << std::endl;
+        std::cout << "humedad_sustrato = " << soil_derecha[0]->get_humedad_sustrato() << "%" << std::endl;
         vTaskDelay(5000 / portTICK_PERIOD_MS);
     }
 }

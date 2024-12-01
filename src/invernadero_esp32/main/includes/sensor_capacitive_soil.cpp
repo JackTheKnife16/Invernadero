@@ -12,6 +12,7 @@ std::vector<int16_t>
 SensorCapacitiveSoil::get_mediciones() {
     humedad_sustrato_v[0] = get_humedad_sustrato();
     std::cout << "Debug SensorCapacitiveSoil::get_mediciones >>> humedad_sustrato = " << humedad_sustrato_v[0] << std::endl;
+    std::cout << "Debug SensorCapacitiveSoil::get_mediciones >>> numero de mediciones = " << humedad_sustrato_v.size() << std::endl;
     return humedad_sustrato_v; 
 }
 
