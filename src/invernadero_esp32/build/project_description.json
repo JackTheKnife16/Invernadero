@@ -1,7 +1,7 @@
 {
     "version":            "1.1",
     "project_name":       "invernadero_esp32",
-    "project_version":    "d6fb685-dirty",
+    "project_version":    "ac8243e-dirty",
     "project_path":       "/home/darkgambler/CENTRAL_GITHUB/Invernadero/src/invernadero_esp32",
     "idf_path":           "/home/darkgambler/esp/esp-idf",
     "build_dir":          "/home/darkgambler/CENTRAL_GITHUB/Invernadero/src/invernadero_esp32/build",
@@ -1225,7 +1225,7 @@
             "managed_reqs": [],
             "managed_priv_reqs": [],
             "file": "/home/darkgambler/CENTRAL_GITHUB/Invernadero/src/invernadero_esp32/build/esp-idf/main/libmain.a",
-            "sources": [ "/home/darkgambler/CENTRAL_GITHUB/Invernadero/src/invernadero_esp32/main/main.cpp", "/home/darkgambler/CENTRAL_GITHUB/Invernadero/src/invernadero_esp32/main/includes/sensor_dht22.cpp", "/home/darkgambler/CENTRAL_GITHUB/Invernadero/src/invernadero_esp32/main/includes/sensor_capacitive_soil.cpp", "/home/darkgambler/CENTRAL_GITHUB/Invernadero/src/invernadero_esp32/main/includes/sensor_interfaz.cpp", "/home/darkgambler/CENTRAL_GITHUB/Invernadero/src/invernadero_esp32/main/includes/coordinador.cpp", "/home/darkgambler/CENTRAL_GITHUB/Invernadero/src/invernadero_esp32/main/includes/fsm.cpp", "/home/darkgambler/CENTRAL_GITHUB/Invernadero/src/invernadero_esp32/main/includes/fsm_sustrato.cpp", "/home/darkgambler/CENTRAL_GITHUB/Invernadero/src/invernadero_esp32/main/includes/fsm_ambiental.cpp", "/home/darkgambler/CENTRAL_GITHUB/Invernadero/src/invernadero_esp32/main/includes/actuador_interfaz.cpp" ],
+            "sources": [ "/home/darkgambler/CENTRAL_GITHUB/Invernadero/src/invernadero_esp32/main/main.cpp", "/home/darkgambler/CENTRAL_GITHUB/Invernadero/src/invernadero_esp32/main/includes/sensor_dht22.cpp", "/home/darkgambler/CENTRAL_GITHUB/Invernadero/src/invernadero_esp32/main/includes/sensor_capacitive_soil.cpp", "/home/darkgambler/CENTRAL_GITHUB/Invernadero/src/invernadero_esp32/main/includes/sensor_luz.cpp", "/home/darkgambler/CENTRAL_GITHUB/Invernadero/src/invernadero_esp32/main/includes/sensor_interfaz.cpp", "/home/darkgambler/CENTRAL_GITHUB/Invernadero/src/invernadero_esp32/main/includes/coordinador.cpp", "/home/darkgambler/CENTRAL_GITHUB/Invernadero/src/invernadero_esp32/main/includes/fsm.cpp", "/home/darkgambler/CENTRAL_GITHUB/Invernadero/src/invernadero_esp32/main/includes/fsm_sustrato.cpp", "/home/darkgambler/CENTRAL_GITHUB/Invernadero/src/invernadero_esp32/main/includes/fsm_ambiental.cpp", "/home/darkgambler/CENTRAL_GITHUB/Invernadero/src/invernadero_esp32/main/includes/fsm_luz.cpp", "/home/darkgambler/CENTRAL_GITHUB/Invernadero/src/invernadero_esp32/main/includes/actuador_interfaz.cpp" ],
             "include_dirs": [ ".", "includes" ]
         },
         "mbedtls": {
