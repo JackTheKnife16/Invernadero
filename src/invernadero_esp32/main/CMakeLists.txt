@@ -5,6 +5,7 @@ idf_component_register(SRCS "main.cpp"
                             "includes/coordinador.cpp" 
                             "includes/fsm.cpp" 
                             "includes/fsm_sustrato.cpp"
+                            "includes/fsm_ambiental.cpp"
                             "includes/actuador_interfaz.cpp" 
                        INCLUDE_DIRS "." "includes")
 
