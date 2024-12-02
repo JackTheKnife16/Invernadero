@@ -29,7 +29,7 @@ extern "C" void app_main(void)
     // declarar un vector de Sensores
     std::vector<SensorInterfaz*> dht_array;
     // meter un sensor en el vector de sensores
-    dht_array.push_back(new SensorDHT22(GPIO_NUM_22));
+    dht_array.push_back(new SensorDHT22(GPIO_NUM_32));
     // instanciar una maquina de estados
     FSM* fsm_ambiental = new FSMAmbiental(OFF);
     // instanciar una interfaz de actuador
@@ -39,14 +39,27 @@ extern "C" void app_main(void)
 
     // declarar un vector de Sensores
     //std::vector<SensorInterfaz*> soil_derecha;
-    // meter un sensor en el vector de sensores
+    // meter dos sensores en el vector de sensores
     //soil_derecha.push_back(new SensorCapacitiveSoil(GPIO_NUM_36, 1400, 3200));
+    //soil_derecha.push_back(new SensorCapacitiveSoil(GPIO_NUM_39, 1400, 3200));
     // instanciar una maquina de estados
-    //FSM* fsm_sustrato = new FSMSustrato(OFF);
+    //FSM* fsm_sustrato_derecha = new FSMSustrato(OFF);
     // instanciar una interfaz de actuador
     //ActuadorInterfaz* bomba_derecha = new ActuadorInterfaz(GPIO_NUM_23);
     // crear el coordinador del vector de sensores
-    //Coordinador* coordinador_sustrato = new Coordinador(soil_derecha, fsm_sustrato, bomba_derecha);
+    //Coordinador* coordinador_sustrato_derecha = new Coordinador(soil_derecha, fsm_sustrato_derecha, bomba_derecha);
+    
+    // declarar un vector de Sensores
+    //std::vector<SensorInterfaz*> soil_izquierda;
+    // meter dos sensores en el vector de sensores
+    //soil_izquierda.push_back(new SensorCapacitiveSoil(GPIO_NUM_34, 1400, 3200));
+    //soil_izquierda.push_back(new SensorCapacitiveSoil(GPIO_NUM_35, 1400, 3200));
+    // instanciar una maquina de estados
+    //FSM* fsm_sustrato_izquierda = new FSMSustrato(OFF);
+    // instanciar una interfaz de actuador
+    //ActuadorInterfaz* bomba_izquierda = new ActuadorInterfaz(GPIO_NUM_22);
+    // crear el coordinador del vector de sensores
+    //Coordinador* coordinador_sustrato_izquierda = new Coordinador(soil_izquierda, soil_izquierda, bomba_izquierda);
 
     while(1) {
         //dht->get_mediciones();
@@ -57,7 +70,8 @@ extern "C" void app_main(void)
         
         // funcionando >>>
         coordinador_dht->ejecutor();
-        //coordinador_sustrato->ejecutor();
+        //coordinador_sustrato_derecha->ejecutor();
+        //coordinador_sustrato_izquierda->ejecutor();
         //std::cout << "humedad_sustrato = " << soil_derecha[0]->get_humedad_sustrato() << "%" << std::endl;
         vTaskDelay(5000 / portTICK_PERIOD_MS);
     }
