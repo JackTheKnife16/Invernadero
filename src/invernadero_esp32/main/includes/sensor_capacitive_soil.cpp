@@ -1,7 +1,8 @@
 #include "sensor_capacitive_soil.h"
 
-SensorCapacitiveSoil::SensorCapacitiveSoil(gpio_num_t _gpio, int16_t _min, int16_t _max) : SensorInterfaz(_gpio) {
+SensorCapacitiveSoil::SensorCapacitiveSoil(gpio_num_t _gpio, adc1_channel_t _channel, int16_t _min, int16_t _max) : SensorInterfaz(_gpio) {
     gpio = _gpio;
+    channel = _channel;
     min_adc = _min;
     max_adc = _max;
     m = (float) 100 / (max_adc - min_adc);
@@ -18,7 +19,7 @@ SensorCapacitiveSoil::get_mediciones() {
 
 int16_t
 SensorCapacitiveSoil::get_medicion() {
-    medicion_adc = adc1_get_raw(ADC1_CHANNEL_0);
+    medicion_adc = adc1_get_raw(channel);
     return medicion_adc;
 }
 

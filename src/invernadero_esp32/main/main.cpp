@@ -21,16 +21,7 @@
 extern "C" void app_main(void)
 {
 
-     // declarar un vector de Sensores
-    std::vector<SensorInterfaz*> luz_array;
-    // meter un sensor en el vector de sensores
-    luz_array.push_back(new SensorLuz(GPIO_NUM_32, ADC1_CHANNEL_4));
-    // instanciar una maquina de estados
-    FSM* fsm_luz = new FSMLuz(OFF);
-    // instanciar una interfaz de actuador
-    ActuadorInterfaz* bombillos = new ActuadorInterfaz(GPIO_NUM_3);
-    // crear el coordinador del vector de sensores
-    Coordinador* coordinador_luz = new Coordinador(luz_array, fsm_luz, bombillos);
+
     
     /*
     // funcionando >>>
@@ -46,9 +37,21 @@ extern "C" void app_main(void)
     int no_lluvia;
 
     // declarar un vector de Sensores
+    std::vector<SensorInterfaz*> luz_array;
+    // meter un sensor en el vector de sensores
+    luz_array.push_back(new SensorLuz(GPIO_NUM_32, ADC1_CHANNEL_4));
+    luz_array.push_back(new SensorLuz(GPIO_NUM_33, ADC1_CHANNEL_5));
+    // instanciar una maquina de estados
+    FSM* fsm_luz = new FSMLuz(OFF);
+    // instanciar una interfaz de actuador
+    ActuadorInterfaz* bombillos = new ActuadorInterfaz(GPIO_NUM_3);
+    // crear el coordinador del vector de sensores
+    Coordinador* coordinador_luz = new Coordinador(luz_array, fsm_luz, bombillos);
+
+    // declarar un vector de Sensores
     std::vector<SensorInterfaz*> dht_array;
     // meter un sensor en el vector de sensores
-    dht_array.push_back(new SensorDHT22(GPIO_NUM_32));
+    dht_array.push_back(new SensorDHT22(GPIO_NUM_25));
     // instanciar una maquina de estados
     FSM* fsm_ambiental = new FSMAmbiental(OFF);
     // instanciar una interfaz de actuador
@@ -59,8 +62,8 @@ extern "C" void app_main(void)
     // declarar un vector de Sensores
     std::vector<SensorInterfaz*> soil_derecha;
     // meter dos sensores en el vector de sensores
-    soil_derecha.push_back(new SensorCapacitiveSoil(GPIO_NUM_36, 1400, 3200));
-    soil_derecha.push_back(new SensorCapacitiveSoil(GPIO_NUM_39, 1400, 3200));
+    soil_derecha.push_back(new SensorCapacitiveSoil(GPIO_NUM_36, ADC1_CHANNEL_0, 1400, 3200));
+    soil_derecha.push_back(new SensorCapacitiveSoil(GPIO_NUM_39, ADC1_CHANNEL_3, 1400, 3200));
     // instanciar una maquina de estados
     FSM* fsm_sustrato_derecha = new FSMSustrato(OFF);
     // instanciar una interfaz de actuador
@@ -71,8 +74,8 @@ extern "C" void app_main(void)
     // declarar un vector de Sensores
     std::vector<SensorInterfaz*> soil_izquierda;
     // meter dos sensores en el vector de sensores
-    soil_izquierda.push_back(new SensorCapacitiveSoil(GPIO_NUM_34, 1400, 3200));
-    soil_izquierda.push_back(new SensorCapacitiveSoil(GPIO_NUM_35, 1400, 3200));
+    soil_izquierda.push_back(new SensorCapacitiveSoil(GPIO_NUM_34, ADC1_CHANNEL_6, 1400, 3200));
+    soil_izquierda.push_back(new SensorCapacitiveSoil(GPIO_NUM_35, ADC1_CHANNEL_7, 1400, 3200));
     // instanciar una maquina de estados
     FSM* fsm_sustrato_izquierda = new FSMSustrato(OFF);
     // instanciar una interfaz de actuador
@@ -84,13 +87,13 @@ extern "C" void app_main(void)
     */
    
     while(1) {
-        std::cout << "luz = " << luz_array[0]->get_medicion() << std::endl;
-        coordinador_luz->ejecutor();
+        
 
         /*
         // funcionando >>>
         coordinador_sustrato_derecha->ejecutor();
         coordinador_sustrato_izquierda->ejecutor();
+        coordinador_luz->ejecutor();
         no_lluvia = gpio_get_level(GPIO_NUM_26);
         std::cout << "lluvia = " << no_lluvia << std::endl; //borrar al final
         if (no_lluvia) {
