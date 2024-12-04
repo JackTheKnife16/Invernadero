@@ -16,16 +16,26 @@
 #include "includes/sensor_capacitive_soil.h"
 #include "includes/sensor_luz.h"
 #include "dht.h"
+#include "driver/mcpwm.h"
+#include "soc/mcpwm_periph.h"
 #include <vector>
 
 extern "C" void app_main(void)
 {
+        // Inicializar el GPIO para MCPWM
+    mcpwm_gpio_init(MCPWM_UNIT_0, MCPWM0A, GPIO_NUM_18);
 
-
-    
+    // Configurar MCPWM
+    mcpwm_config_t pwm_config = {
+        .frequency = 50,                      // Frecuencia: 50 Hz
+        .cmpr_a = 0,                          // Ciclo de trabajo inicial del canal A
+        .cmpr_b = 0,                          // Ciclo de trabajo inicial del canal B
+        .duty_mode = MCPWM_DUTY_MODE_0,        // Salida de ciclo de trabajo activa
+        .counter_mode = MCPWM_UP_COUNTER     // Contador ascendente
+    };
+    mcpwm_init(MCPWM_UNIT_0, MCPWM_TIMER_0, &pwm_config);
     /*
-    // funcionando >>>
-        // configurar el pin 26 del sensor de lluvia como entrada   
+    // configurar el pin 26 del sensor de lluvia como entrada   
     gpio_config_t io_conf = {
         .pin_bit_mask = (1ULL << GPIO_NUM_26),  // Seleccionar GPIO26
         .mode = GPIO_MODE_INPUT,               // Configurar como entrada
@@ -82,15 +92,24 @@ extern "C" void app_main(void)
     ActuadorInterfaz* bomba_izquierda = new ActuadorInterfaz(GPIO_NUM_22);
     // crear el coordinador del vector de sensores
     Coordinador* coordinador_sustrato_izquierda = new Coordinador(soil_izquierda, fsm_sustrato_izquierda, bomba_izquierda);
-    
-    
     */
    
     while(1) {
-        
+        // Mover a 0° (pulso de ~500 µs)
+        mcpwm_set_duty_in_us(MCPWM_UNIT_0, MCPWM_TIMER_0, MCPWM_OPR_A, 500);
+        printf("Servo a 0 grados\n");
+        vTaskDelay(pdMS_TO_TICKS(5000));  // Esperar 2 segundos
 
+        // Mover a 90° (pulso de ~1500 µs)
+        //mcpwm_set_duty_in_us(MCPWM_UNIT_0, MCPWM_TIMER_0, MCPWM_OPR_A, 1500);
+        //printf("Servo a 90 grados\n");
+        //vTaskDelay(pdMS_TO_TICKS(2000));  // Esperar 2 segundos
+
+        // Mover a 180° (pulso de ~2500 µs)
+        mcpwm_set_duty_in_us(MCPWM_UNIT_0, MCPWM_TIMER_0, MCPWM_OPR_A, 2500);
+        printf("Servo a 180 grados\n");
+        vTaskDelay(pdMS_TO_TICKS(5000));  // Esperar 2 segundos
         /*
-        // funcionando >>>
         coordinador_sustrato_derecha->ejecutor();
         coordinador_sustrato_izquierda->ejecutor();
         coordinador_luz->ejecutor();
@@ -99,9 +118,8 @@ extern "C" void app_main(void)
         if (no_lluvia) {
             coordinador_dht->ejecutor();
         }
-        */
-       
-       
+        
        vTaskDelay(5000 / portTICK_PERIOD_MS);
+       */
     }
 }

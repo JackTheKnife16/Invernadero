@@ -1,7 +1,7 @@
 {
     "version":            "1.1",
     "project_name":       "invernadero_esp32",
-    "project_version":    "ac8243e-dirty",
+    "project_version":    "a5f6362-dirty",
     "project_path":       "/home/darkgambler/CENTRAL_GITHUB/Invernadero/src/invernadero_esp32",
     "idf_path":           "/home/darkgambler/esp/esp-idf",
     "build_dir":          "/home/darkgambler/CENTRAL_GITHUB/Invernadero/src/invernadero_esp32/build",
