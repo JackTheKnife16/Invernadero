@@ -13,5 +13,5 @@ ActuadorInterfaz::seteo_gpio(){
 void
 ActuadorInterfaz::setear_level(uint32_t level) {
     std::cout << "level = " << level << std::endl;
-    gpio_set_level(gpio, level);
+    gpio_set_level(gpio, ~level);
 }

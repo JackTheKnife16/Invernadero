@@ -22,7 +22,8 @@
 
 extern "C" void app_main(void)
 {
-        // Inicializar el GPIO para MCPWM
+    
+    // Inicializar el GPIO para MCPWM
     mcpwm_gpio_init(MCPWM_UNIT_0, MCPWM0A, GPIO_NUM_18);
 
     // Configurar MCPWM
@@ -34,6 +35,7 @@ extern "C" void app_main(void)
         .counter_mode = MCPWM_UP_COUNTER     // Contador ascendente
     };
     mcpwm_init(MCPWM_UNIT_0, MCPWM_TIMER_0, &pwm_config);
+    
     /*
     // configurar el pin 26 del sensor de lluvia como entrada   
     gpio_config_t io_conf = {
@@ -46,15 +48,18 @@ extern "C" void app_main(void)
     gpio_config(&io_conf);
     int no_lluvia;
 
-    // declarar un vector de Sensores
+
+
+    */
+       // declarar un vector de Sensores
     std::vector<SensorInterfaz*> luz_array;
     // meter un sensor en el vector de sensores
     luz_array.push_back(new SensorLuz(GPIO_NUM_32, ADC1_CHANNEL_4));
     luz_array.push_back(new SensorLuz(GPIO_NUM_33, ADC1_CHANNEL_5));
     // instanciar una maquina de estados
-    FSM* fsm_luz = new FSMLuz(OFF);
+    FSM* fsm_luz = new FSMLuz(OFF, 10, 10);
     // instanciar una interfaz de actuador
-    ActuadorInterfaz* bombillos = new ActuadorInterfaz(GPIO_NUM_3);
+    ActuadorInterfaz* bombillos = new ActuadorInterfaz(GPIO_NUM_15);
     // crear el coordinador del vector de sensores
     Coordinador* coordinador_luz = new Coordinador(luz_array, fsm_luz, bombillos);
 
@@ -68,7 +73,7 @@ extern "C" void app_main(void)
     ActuadorInterfaz* ventana = new ActuadorInterfaz(GPIO_NUM_1);
     // crear el coordinador del vector de sensores
     Coordinador* coordinador_dht = new Coordinador(dht_array, fsm_ambiental, ventana);
-
+    
     // declarar un vector de Sensores
     std::vector<SensorInterfaz*> soil_derecha;
     // meter dos sensores en el vector de sensores
@@ -80,38 +85,32 @@ extern "C" void app_main(void)
     ActuadorInterfaz* bomba_derecha = new ActuadorInterfaz(GPIO_NUM_23);
     // crear el coordinador del vector de sensores
     Coordinador* coordinador_sustrato_derecha = new Coordinador(soil_derecha, fsm_sustrato_derecha, bomba_derecha);
-    
+
     // declarar un vector de Sensores
     std::vector<SensorInterfaz*> soil_izquierda;
     // meter dos sensores en el vector de sensores
-    soil_izquierda.push_back(new SensorCapacitiveSoil(GPIO_NUM_34, ADC1_CHANNEL_6, 1400, 3200));
     soil_izquierda.push_back(new SensorCapacitiveSoil(GPIO_NUM_35, ADC1_CHANNEL_7, 1400, 3200));
+    soil_izquierda.push_back(new SensorCapacitiveSoil(GPIO_NUM_34, ADC1_CHANNEL_6, 1400, 3200));
     // instanciar una maquina de estados
     FSM* fsm_sustrato_izquierda = new FSMSustrato(OFF);
     // instanciar una interfaz de actuador
     ActuadorInterfaz* bomba_izquierda = new ActuadorInterfaz(GPIO_NUM_22);
     // crear el coordinador del vector de sensores
     Coordinador* coordinador_sustrato_izquierda = new Coordinador(soil_izquierda, fsm_sustrato_izquierda, bomba_izquierda);
-    */
-   
+    
+    int abrir_ventana;
     while(1) {
         // Mover a 0° (pulso de ~500 µs)
-        mcpwm_set_duty_in_us(MCPWM_UNIT_0, MCPWM_TIMER_0, MCPWM_OPR_A, 500);
-        printf("Servo a 0 grados\n");
-        vTaskDelay(pdMS_TO_TICKS(5000));  // Esperar 2 segundos
+        //mcpwm_set_duty_in_us(MCPWM_UNIT_0, MCPWM_TIMER_0, MCPWM_OPR_A, 500);
+        //printf("Servo a 0 grados\n");
+        //vTaskDelay(pdMS_TO_TICKS(5000));  // Esperar 2 segundos
 
         // Mover a 90° (pulso de ~1500 µs)
         //mcpwm_set_duty_in_us(MCPWM_UNIT_0, MCPWM_TIMER_0, MCPWM_OPR_A, 1500);
         //printf("Servo a 90 grados\n");
         //vTaskDelay(pdMS_TO_TICKS(2000));  // Esperar 2 segundos
-
-        // Mover a 180° (pulso de ~2500 µs)
-        mcpwm_set_duty_in_us(MCPWM_UNIT_0, MCPWM_TIMER_0, MCPWM_OPR_A, 2500);
-        printf("Servo a 180 grados\n");
-        vTaskDelay(pdMS_TO_TICKS(5000));  // Esperar 2 segundos
         /*
-        coordinador_sustrato_derecha->ejecutor();
-        coordinador_sustrato_izquierda->ejecutor();
+        
         coordinador_luz->ejecutor();
         no_lluvia = gpio_get_level(GPIO_NUM_26);
         std::cout << "lluvia = " << no_lluvia << std::endl; //borrar al final
@@ -121,5 +120,22 @@ extern "C" void app_main(void)
         
        vTaskDelay(5000 / portTICK_PERIOD_MS);
        */
+        //coordinador_sustrato_derecha->ejecutor();
+        //coordinador_sustrato_izquierda->ejecutor();
+        coordinador_dht->ejecutor();
+        //coordinador_luz->ejecutor();
+        abrir_ventana = gpio_get_level(GPIO_NUM_1);
+
+        if( abrir_ventana == 1 ) {
+            mcpwm_set_duty_in_us(MCPWM_UNIT_0, MCPWM_TIMER_0, MCPWM_OPR_A, 500);
+            std::cout << "Servo a 0 grados" << std::endl;
+        }
+        else {
+            mcpwm_set_duty_in_us(MCPWM_UNIT_0, MCPWM_TIMER_0, MCPWM_OPR_A, 1500);
+            std::cout << "Servo a 90 grados" << std::endl;
+        }
+       //std::vector<int16_t> val = dht_array[0]->get_mediciones();
+       //std::cout << "humedad = " << val[0] << ", temperatura = " << val[1] << std::endl;
+        vTaskDelay(5000 / portTICK_PERIOD_MS);
     }
 }
